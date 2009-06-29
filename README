@@ -35,7 +35,13 @@ It's that easy.
 
 == Installation
 
-You can install LogiLogi Remote with the following command:
+LogiLogi Remote requires rAtom, which requires libxml-ruby, in ubuntu
+it is installed with apt-get install libxml2.
+
+rAtom is a gem, which is pulled in automatically if you install
+llremote.
+
+Then you can install LogiLogi Remote with the following command:
 
   % [sudo] gem install llremote
 

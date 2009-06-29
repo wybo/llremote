@@ -18,7 +18,8 @@ require 'atom'
 require 'atom/pub'
 
 $:.unshift(File.dirname(__FILE__)) unless
-    $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+    $:.include?(File.dirname(__FILE__)) || $:.include?(
+        File.expand_path(File.dirname(__FILE__)))
 
 class LLRemote
   ### Class-attributes
@@ -61,9 +62,10 @@ FUN
   #
   def self.load_entry(link)
     begin
-      return Atom::Entry.load_entry(URI.parse(LLRemote.server_url + link + "/do.xml"))
+      return Atom::Entry.load_entry(URI.parse(LLRemote.server_url + "/" + 
+          link + "/do.xml"))
     rescue
-      raise 'Error: Perhaps wrong credentials ?'
+      raise 'Error: Can\'t load: ' + link + '. Perhaps wrong link ?'
     end
   end
 end
