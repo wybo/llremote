@@ -55,16 +55,15 @@ class LLRemote::Logi
         self.body.nil? or self.body.empty?
       raise 'Logi needs link, body and title to be created'
     end
-     collection = Atom::Pub::Collection.new(
-        :href => LLRemote.server_url + "/do/logis/" + self.link + 
-            "/do.xml?user_credentials=" + LLRemote.access_token)
+    collection = Atom::Pub::Collection.new(
+        :href => LLRemote.server_url + "/do/logis/" + self.link + "/do.xml")
     entry = Atom::Entry.new do |e|
       e.title = self.title
       e.content = self.parse_body(self.body)
       e.categories = self.parse_tags(self.link)
     end
     begin
-      entry = collection.publish(entry)
+      entry = collection.publish(entry, :user => LLRemote.access_token, :pass => "")
     rescue
       raise 'Error: Could not create logi: ' + self.link +
           '. Wrong credentials ?'
@@ -85,9 +84,7 @@ class LLRemote::Logi
     entry.categories = self.parse_tags(self.link)
 
     begin
-      entry.edit_link.href = entry.edit_link.href +
-          "?user_credentials=" + LLRemote.access_token
-      entry.save!
+      entry.save!(:user => LLRemote.access_token, :pass => "")
     rescue
       raise 'Error: Could not update logi: ' + self.link + 
           '. Wrong credentials ?'
