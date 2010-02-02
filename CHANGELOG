@@ -1,3 +1,7 @@
+*0.7.0* (23 Oct 2009)
+
+* Added support for read-paths
+
 *0.6.0* (9 June 2009)
 
 * First release as a gem

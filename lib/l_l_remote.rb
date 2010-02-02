@@ -13,9 +13,11 @@
 # LLRemote allows you to save logis remotely.
 
 require 'rubygems'
+gem 'activeresource'
 gem 'ratom'
 require 'atom'
 require 'atom/pub'
+require 'active_resource'
 
 $:.unshift(File.dirname(__FILE__)) unless
     $:.include?(File.dirname(__FILE__)) || $:.include?(
@@ -54,6 +56,8 @@ FUN
     else
       LLRemote.server_url = "http://en.logilogi.org"
     end
+    LLRemote::Path.setup
+    LLRemote::Step.setup
   end
 
   # Loads a ratom Atom::Entry for the given link.
@@ -63,7 +67,7 @@ FUN
   def self.load_entry(link)
     begin
       return Atom::Entry.load_entry(URI.parse(LLRemote.server_url + "/" + 
-          link + "/do.xml"))
+          link + "/do.xml"), :read_timeout => 60)
     rescue
       raise 'Error: Can\'t load: ' + link + '. Perhaps wrong link ?'
     end
@@ -71,3 +75,5 @@ FUN
 end
 
 require 'l_l_remote/logi'
+require 'l_l_remote/path'
+require 'l_l_remote/step'
