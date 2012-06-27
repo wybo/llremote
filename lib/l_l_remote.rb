@@ -1,27 +1,16 @@
 #--#
-# Copyright: (c) 2009 The LogiLogi Foundation <foundation@logilogi.org>
+# Copyright: (c) 2006-2012 Wybo Wiersma <mail@wybowiersma.net>
 #
-# License:
-#   This file is part of the LLRemote Library. LLRemote is Free 
-#   Software. You can run/distribute/modify LLRemote under the terms 
-#   of the GNU Lesser General Public License version 3. This license
-#   states that you can use LLRemote in applications that are not Free 
-#   Software but LLRemote itself remains Free Software. (LICENSE contains 
-#   the full text of the legally binding license).
+# MIT Licensed
 #++#
 #
 # LLRemote allows you to save logis remotely.
 
 require 'rubygems'
-gem 'activeresource'
-gem 'ratom'
 require 'atom'
 require 'atom/pub'
 require 'active_resource'
-
-$:.unshift(File.dirname(__FILE__)) unless
-    $:.include?(File.dirname(__FILE__)) || $:.include?(
-        File.expand_path(File.dirname(__FILE__)))
+require 'l_l_remote/version'
 
 class LLRemote
   ### Class-attributes
@@ -52,9 +41,9 @@ FUN
 
     LLRemote.access_token = options[:access_token]
     if options[:server_url]
-      LLRemote.server_url = options[:server_url].gsub(/\/$/,"")
+      LLRemote.server_url = options[:server_url].gsub(/\/$/,'')
     else
-      LLRemote.server_url = "http://en.logilogi.org"
+      LLRemote.server_url = 'http://en.logilogi.org'
     end
     LLRemote::Path.setup
     LLRemote::Step.setup
@@ -66,8 +55,8 @@ FUN
   #
   def self.load_entry(link)
     begin
-      return Atom::Entry.load_entry(URI.parse(LLRemote.server_url + "/" + 
-          link + "/do.xml"), :read_timeout => 60)
+      return Atom::Entry.load_entry(URI.parse(LLRemote.server_url + '/' + 
+          link + '/do.xml'), :read_timeout => 60)
     rescue
       raise 'Error: Can\'t load: ' + link + '. Perhaps wrong link ?'
     end

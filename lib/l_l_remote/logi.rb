@@ -1,15 +1,3 @@
-#--#
-# Copyright: (c) 2009 The LogiLogi Foundation <foundation@logilogi.org>
-#
-# License:
-#   This file is part of the LLRemote Library. LLRemote is Free 
-#   Software. You can run/distribute/modify LLRemote under the terms 
-#   of the GNU Lesser General Public License version 3. This license
-#   states that you can use LLRemote in applications that are not Free 
-#   Software but LLRemote itself remains Free Software. (LICENSE contains 
-#   the full text of the legally binding license).
-#++#
-#
 # LLRemote::Logi is a logi that can be read and saved remotely
 
 class LLRemote::Logi
@@ -56,14 +44,14 @@ class LLRemote::Logi
       raise 'Logi needs link, body and title to be created'
     end
     collection = Atom::Pub::Collection.new(
-        :href => LLRemote.server_url + "/do/logis/" + self.link + "/do.xml")
+        :href => LLRemote.server_url + '/do/logis/' + self.link + '/do.xml')
     entry = Atom::Entry.new do |e|
       e.title = self.title
       e.content = self.parse_body(self.body)
       e.categories = self.parse_tags(self.link)
     end
     begin
-      entry = collection.publish(entry, :user => LLRemote.access_token, :pass => "")
+      entry = collection.publish(entry, :user => LLRemote.access_token, :pass => '')
     rescue
       raise 'Error: Could not create logi: ' + self.link +
           '. Wrong credentials ?'
@@ -84,7 +72,7 @@ class LLRemote::Logi
     entry.categories = self.parse_tags(self.link)
 
     begin
-      entry.save!(:user => LLRemote.access_token, :pass => "")
+      entry.save!(:user => LLRemote.access_token, :pass => '')
     rescue
       raise 'Error: Could not update logi: ' + self.link + 
           '. Wrong credentials ?'
@@ -111,16 +99,16 @@ class LLRemote::Logi
   end
 
   def unparse_link(raw_link)
-    link = raw_link.gsub(LLRemote.server_url + "/","")
+    link = raw_link.gsub(LLRemote.server_url + '/','')
     link.strip!
     return link
   end
 
   def parse_body(raw_body)
     raw_body = raw_body.dup
-    raw_body.gsub!(/^(\n|\s)*/,"")
-    raw_body.gsub!(/(\n|\s)*$/,"")
+    raw_body.gsub!(/^(\n|\s)*/,'')
+    raw_body.gsub!(/(\n|\s)*$/,'')
     return Atom::Content::Html.new(
-        "<p>" + raw_body.split("\n").join("</p> <p>") + "</p>")
+        '<p>' + raw_body.split("\n").join('</p> <p>') + '</p>')
   end
 end
